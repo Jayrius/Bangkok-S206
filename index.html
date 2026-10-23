@@ -4,40 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bangkok 2026 S2-06 OLE</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts: Prompt & Sarabun for a Thai adventurous feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        'prompt': ['"Prompt"', 'sans-serif'],
-                        'sarabun': ['"Sarabun"', 'sans-serif'],
+                        'heading': ['"Prompt"', 'sans-serif'],
+                        'body': ['"Sarabun"', 'sans-serif'],
                     },
                     colors: {
                         charcoal: {
-                            900: '#121212',
-                            800: '#1e1e1e',
-                            700: '#2d2d2d',
+                            900: '#111111',
+                            800: '#1a1a1a',
+                            700: '#2a2a2a',
                         },
-                        thai: {
-                            gold: '#FFD700',
-                            goldDark: '#CCAC00',
-                            crimson: '#C90016',
-                            crimsonDark: '#990011',
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#AA8C2C',
+                        },
+                        crimson: {
+                            DEFAULT: '#990000',
+                            light: '#CC0000',
                         }
                     },
                     keyframes: {
                         fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '0%': { opacity: '0', transform: 'translateY(15px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '.6' },
                         }
                     },
                     animation: {
-                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'fade-in-up': 'fadeInUp 0.4s ease-out forwards',
+                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -46,158 +61,112 @@
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
-            background: linear-gradient(135deg, #121212 0%, #1e1e1e 50%, #2d1a1a 100%);
-            background-attachment: fixed;
-            color: #f3f4f6;
-            min-height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
             -webkit-tap-highlight-color: transparent;
         }
 
-        h1, h2, h3, h4, h5, .font-heading {
-            font-family: 'Prompt', sans-serif;
+        /* Abstract Background Pattern */
+        .bg-pattern {
+            background-image: radial-gradient(#D4AF37 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            background-position: 0 0;
+            opacity: 0.05;
+            position: fixed;
+            inset: 0;
+            z-index: -1;
         }
 
-        /* Glassmorphism Utilities */
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
+        /* Glassmorphism Elements */
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.7);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.15); /* Subtle gold border */
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.1);
         }
-        
+
         .glass-nav {
-            background: rgba(18, 18, 18, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
         }
 
-        .glass-modal {
-            background: rgba(18, 18, 18, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        .fade-in-up {
-            opacity: 0;
-            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .slide-up {
-            animation: slideUp 0.3s ease-out forwards;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .pulse-glow {
-            animation: pulseGlow 2s infinite alternate;
-        }
-        @keyframes pulseGlow {
-            from { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
-            to { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
-        }
-
-        .hover-elevate {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hover-elevate:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-        }
-
+        /* Tab Transitions */
         .tab-content {
             display: none;
             opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
         }
         .tab-content.active {
             display: block;
-            opacity: 1;
-            transform: translateX(0);
-            animation: fadeIn 0.4s ease forwards;
+            animation: fadeIn 0.3s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.5); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.8); }
+        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.6); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Hide scrollbar for horizontal scroll areas but allow scroll */
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Toast Container */
+        /* Toast System */
         #toast-container {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 9999;
+            z-index: 100;
             display: flex;
             flex-direction: column;
             gap: 10px;
             width: 90%;
-            max-w: 400px;
+            max-width: 400px;
+            pointer-events: none;
         }
         .toast {
-            padding: 12px 20px;
+            padding: 12px 16px;
             border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+            font-family: 'Prompt', sans-serif;
+            font-size: 14px;
+            color: #fff;
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: slideDown 0.3s ease forwards;
-            font-family: 'Prompt', sans-serif;
+            gap: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+            animation: slideDownToast 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-        .toast.error { background: rgba(153, 0, 0, 0.95); border: 1px solid #ff4d4d; }
-        .toast.success { background: rgba(212, 175, 55, 0.95); color: #000; border: 1px solid #ffe885; }
-        .toast.info { background: rgba(30, 30, 30, 0.95); border: 1px solid #D4AF37; color: #D4AF37;}
+        .toast.success { background: #AA8C2C; border: 1px solid #D4AF37; }
+        .toast.error { background: #990000; border: 1px solid #CC0000; }
+        .toast.info { background: #1a1a1a; border: 1px solid #D4AF37; }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideDownToast {
+            from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Checkbox specific */
-        .pack-checkbox {
+        /* Custom Checkbox */
+        .custom-checkbox {
             appearance: none;
-            width: 22px;
-            height: 22px;
+            min-width: 20px;
+            width: 20px;
+            height: 20px;
             border: 2px solid #555;
             border-radius: 4px;
-            outline: none;
+            background: rgba(0,0,0,0.5);
             cursor: pointer;
             position: relative;
-            background: rgba(0,0,0,0.3);
             transition: all 0.2s;
-            flex-shrink: 0;
         }
-        .pack-checkbox:checked {
+        .custom-checkbox:checked {
             background: #D4AF37;
             border-color: #D4AF37;
         }
-        .pack-checkbox:checked::after {
+        .custom-checkbox:checked::after {
             content: '✓';
             position: absolute;
             color: #000;
@@ -209,685 +178,613 @@
         }
     </style>
 </head>
-<body class="antialiased flex justify-center">
-
+<body class="flex justify-center min-h-screen">
+    
+    <div class="bg-pattern"></div>
     <div id="toast-container"></div>
 
-    <div class="w-full max-w-md min-h-screen relative flex flex-col pb-24 shadow-2xl bg-charcoal-900/40">
+    <!-- Main Mobile Container -->
+    <div class="w-full max-w-md relative flex flex-col min-h-screen pb-20 shadow-2xl">
         
         <!-- Header -->
-        <header class="sticky top-0 z-40 px-6 py-5 flex justify-between items-center bg-gradient-to-b from-charcoal-900 to-transparent">
+        <header class="sticky top-0 z-40 px-5 py-4 flex justify-between items-center bg-gradient-to-b from-charcoal-900 to-transparent">
             <div>
-                <h1 class="text-2xl font-heading text-transparent bg-clip-text bg-gradient-to-r from-thai-gold to-yellow-200 tracking-wide animate-pulse">BANGKOK 2026 S2-06</h1>
-                <p class="text-[11px] text-gray-400 font-medium tracking-widest uppercase">OLE</p>
+                <h1 class="text-2xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-light tracking-wide drop-shadow-md">BANGKOK 2026 S2-06</h1>
+                <p class="text-xs text-gold-dark font-medium tracking-widest uppercase">OLE Expedition</p>
             </div>
-            <button id="admin-toggle-btn" class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-thai-gold transition-all duration-300 ease-in-out hover:scale-105">
+            <button id="btn-admin-unlock" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-400 hover:text-gold transition-colors shadow-lg">
                 <i class="ph ph-lock-key text-xl"></i>
             </button>
         </header>
 
-        <!-- Main Content Area -->
-        <main class="flex-grow px-4 pb-6">
+        <!-- Main Content -->
+        <main class="flex-grow px-4 pb-6 mt-2 relative z-10">
             
             <!-- Tab 1: Itinerary -->
             <section id="tab-itinerary" class="tab-content active">
                 
-                <!-- Day Selector -->
-                <div class="flex overflow-x-auto hide-scroll gap-2 mb-6 pb-2 border-b border-white/10" id="day-selector-container">
-                    <!-- Populated by JS -->
+                <!-- Day Horizontal Scroll -->
+                <div class="flex overflow-x-auto no-scrollbar gap-2 mb-6 pb-2" id="day-tabs">
+                    <!-- JS Injected -->
                 </div>
 
-                <div class="flex justify-between items-end mb-4 px-1">
-                    <h2 class="text-xl font-heading text-thai-gold" id="current-day-title">Day 1 Details</h2>
-                    <div class="text-[10px] text-gray-400 flex gap-2 font-medium bg-black/40 px-2 py-1 rounded-md border border-white/10 uppercase">
+                <div class="flex justify-between items-end mb-4">
+                    <h2 class="text-xl font-heading text-gold" id="current-day-label">Day 1</h2>
+                    <div class="text-[10px] text-gray-400 flex gap-2 font-body bg-black/60 px-2 py-1 rounded border border-white/5 uppercase tracking-wide">
                         <span class="flex items-center gap-1"><i class="ph ph-circle"></i> Wait</span>
-                        <span class="flex items-center gap-1 text-blue-400"><i class="ph-fill ph-car"></i> Transit</span>
+                        <span class="flex items-center gap-1 text-yellow-500"><i class="ph-fill ph-car"></i> Trip</span>
                         <span class="flex items-center gap-1 text-green-500"><i class="ph-fill ph-check-circle"></i> Done</span>
                     </div>
                 </div>
 
-                <!-- Timeline Container -->
-                <div id="itinerary-timeline" class="space-y-4 relative pl-3">
-                    <!-- Populated by JS -->
+                <!-- Timeline -->
+                <div id="timeline-container" class="relative pl-4 space-y-5 border-l-2 border-gold/20 ml-2">
+                    <!-- JS Injected -->
                 </div>
             </section>
 
             <!-- Tab 2: Notifications -->
             <section id="tab-notifications" class="tab-content">
-                <div class="flex justify-between items-center mb-5 px-1">
-                    <h2 class="text-xl font-heading text-thai-gold">Announcements</h2>
-                    <button id="btn-show-broadcast" class="hidden glass px-3 py-1.5 rounded-md text-xs text-white hover:bg-white/10 transition flex items-center gap-1">
-                        <i class="ph ph-megaphone text-thai-gold"></i> Post
+                <div class="flex justify-between items-center mb-5">
+                    <div>
+                        <h2 class="text-xl font-heading text-gold">Announcements</h2>
+                        <p class="text-xs text-gray-400">Live teacher updates.</p>
+                    </div>
+                    <button onclick="openModal('modal-broadcast')" class="admin-only hidden glass-panel px-3 py-1.5 rounded text-sm text-gold hover:bg-gold/10 transition flex items-center gap-1">
+                        <i class="ph ph-plus"></i> Post
                     </button>
                 </div>
-                <div id="notifications-container" class="space-y-4">
-                    <!-- Populated by JS -->
+                <div id="notifications-list" class="space-y-3">
+                    <!-- JS Injected -->
                 </div>
             </section>
 
             <!-- Tab 3: Contacts -->
             <section id="tab-contacts" class="tab-content">
-                <div class="flex justify-between items-center mb-5 px-1">
-                    <h2 class="text-xl font-heading text-thai-gold">Key Contacts</h2>
-                    <button id="btn-show-add-contact" class="hidden glass px-3 py-1.5 rounded-md text-xs text-white hover:bg-white/10 transition flex items-center gap-1">
-                        <i class="ph ph-user-plus text-thai-gold"></i> Add
+                <div class="flex justify-between items-center mb-5">
+                    <div>
+                        <h2 class="text-xl font-heading text-gold">Key Contacts</h2>
+                        <p class="text-xs text-gray-400">Emergency & Guide Info</p>
+                    </div>
+                    <button onclick="openModal('modal-add-contact')" class="admin-only hidden glass-panel px-3 py-1.5 rounded text-sm text-gold hover:bg-gold/10 transition flex items-center gap-1">
+                        <i class="ph ph-plus"></i> Add
                     </button>
                 </div>
-                <div id="contacts-container" class="space-y-3">
-                    <!-- Populated by JS -->
+                <div id="contacts-list" class="space-y-3">
+                    <!-- JS Injected -->
                 </div>
             </section>
 
-            <!-- Tab 4: Packing List -->
+            <!-- Tab 4: Packing List (LOCAL STORAGE) -->
             <section id="tab-packing" class="tab-content">
-                <div class="mb-5 px-1">
-                    <h2 class="text-xl font-heading text-thai-gold">Gear Checklist</h2>
-                    <p class="text-[12px] text-gray-400 mt-1">Your personal checklist. Syncs securely to your session.</p>
+                <div class="mb-5">
+                    <h2 class="text-xl font-heading text-gold">Packing List</h2>
+                    <p class="text-xs text-gray-400">Private checklist. Saved locally to your device.</p>
                 </div>
-                <div id="packing-container" class="space-y-4">
-                    <!-- Populated by JS -->
+                <div id="packing-list" class="space-y-4">
+                    <!-- JS Injected -->
                 </div>
             </section>
 
         </main>
 
         <!-- Bottom Navigation -->
-        <nav class="fixed bottom-0 w-full max-w-md glass-nav z-40 pb-safe">
-            <div class="flex justify-around items-center p-2">
-                <button class="nav-btn flex flex-col items-center p-2 text-thai-gold w-16 transition-colors" data-target="tab-itinerary">
-                    <i class="ph-fill ph-map-trifold text-2xl mb-1"></i>
-                    <span class="text-[10px] font-heading uppercase tracking-widest">Route</span>
+        <nav class="fixed bottom-0 w-full max-w-md glass-nav z-40">
+            <div class="flex justify-around items-center px-2 py-3">
+                <button class="nav-item flex flex-col items-center gap-1 text-gold w-16" data-target="tab-itinerary">
+                    <i class="ph-fill ph-map-trifold text-2xl"></i>
+                    <span class="text-[9px] font-heading uppercase tracking-widest font-bold">Plan</span>
                 </button>
-                <button class="nav-btn flex flex-col items-center p-2 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-notifications">
-                    <i class="ph ph-bell-ringing text-2xl mb-1"></i>
-                    <span class="text-[10px] font-heading uppercase tracking-widest">Alerts</span>
+                <button class="nav-item flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-notifications">
+                    <i class="ph ph-bell-ringing text-2xl relative">
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-crimson rounded-full animate-pulse hidden" id="notif-badge"></span>
+                    </i>
+                    <span class="text-[9px] font-heading uppercase tracking-widest font-bold">Alerts</span>
                 </button>
-                <button class="nav-btn flex flex-col items-center p-2 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-contacts">
-                    <i class="ph ph-address-book text-2xl mb-1"></i>
-                    <span class="text-[10px] font-heading uppercase tracking-widest">Comms</span>
+                <button class="nav-item flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-contacts">
+                    <i class="ph ph-address-book text-2xl"></i>
+                    <span class="text-[9px] font-heading uppercase tracking-widest font-bold">Comms</span>
                 </button>
-                <button class="nav-btn flex flex-col items-center p-2 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-packing">
-                    <i class="ph ph-backpack text-2xl mb-1"></i>
-                    <span class="text-[10px] font-heading uppercase tracking-widest">Pack</span>
+                <button class="nav-item flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-packing">
+                    <i class="ph ph-backpack text-2xl"></i>
+                    <span class="text-[9px] font-heading uppercase tracking-widest font-bold">Pack</span>
                 </button>
             </div>
         </nav>
 
     </div>
 
-    <!-- Modals -->
-    
-    <!-- Admin Login Modal -->
-    <div id="modal-admin" class="fixed inset-0 glass-modal z-50 hidden flex justify-center items-center p-4">
-        <div class="bg-charcoal-800 w-full max-w-sm rounded-xl p-6 slide-up border border-thai-gold/30 shadow-2xl">
-            <h3 class="text-xl text-thai-gold mb-1 font-heading">Admin Access</h3>
-            <p class="text-sm text-gray-400 mb-5">Enter authorization code to manage expedition data.</p>
-            <input type="password" id="admin-password" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-5 transition font-mono" placeholder="Code...">
+    <!-- === Modals === -->
+
+    <!-- Admin Login -->
+    <div id="modal-admin" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-center items-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-xl p-6 border-gold/30">
+            <h3 class="text-xl font-heading text-gold mb-2">Teacher Access</h3>
+            <p class="text-sm text-gray-400 mb-5">Enter passcode to edit itinerary and send announcements.</p>
+            <input type="password" id="admin-pass" class="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-gold mb-5 font-mono tracking-widest" placeholder="••••••">
             <div class="flex gap-3">
-                <button onclick="closeModal('modal-admin')" class="flex-1 px-4 py-2.5 rounded-md bg-charcoal-700 hover:bg-gray-700 transition text-sm font-heading tracking-wide">Cancel</button>
-                <button onclick="attemptAdminLogin()" class="flex-1 px-4 py-2.5 rounded-md bg-thai-crimson hover:bg-thai-crimsonDark text-white transition text-sm font-heading tracking-wide border border-red-500/20">Authenticate</button>
+                <button onclick="closeModal('modal-admin')" class="flex-1 py-2.5 rounded bg-charcoal-700 hover:bg-charcoal-800 text-sm font-heading transition">Cancel</button>
+                <button onclick="verifyAdmin()" class="flex-1 py-2.5 rounded bg-crimson hover:bg-crimson-light text-white text-sm font-heading transition font-semibold shadow-lg shadow-crimson/20">Unlock</button>
             </div>
         </div>
     </div>
 
-    <!-- Broadcast Modal -->
-    <div id="modal-broadcast" class="fixed inset-0 glass-modal z-50 hidden flex justify-center items-center p-4">
-        <div class="bg-charcoal-800 w-full max-w-sm rounded-xl p-6 slide-up border border-thai-gold/30 shadow-2xl">
-            <h3 class="text-xl text-thai-gold mb-4 font-heading">Post Announcement</h3>
-            
-            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wide">Location / Context</label>
-            <input type="text" id="broadcast-location" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-3 py-2.5 text-white focus:outline-none focus:border-thai-gold mb-4 transition text-sm" placeholder="e.g. Hotel Lobby, Coach Bus">
-            
-            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wide">Message</label>
-            <textarea id="broadcast-message" rows="3" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-3 py-2.5 text-white focus:outline-none focus:border-thai-gold mb-5 transition resize-none text-sm" placeholder="Enter details..."></textarea>
-            
+    <!-- Post Notification -->
+    <div id="modal-broadcast" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-center items-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-xl p-6 border-gold/30">
+            <h3 class="text-xl font-heading text-gold mb-4">Post Announcement</h3>
+            <input type="text" id="notif-place" class="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-white focus:outline-none focus:border-gold mb-3 text-sm" placeholder="Location / Context (Optional)">
+            <textarea id="notif-msg" rows="4" class="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-white focus:outline-none focus:border-gold mb-5 text-sm resize-none" placeholder="Type your message here..."></textarea>
             <div class="flex gap-3">
-                <button onclick="closeModal('modal-broadcast')" class="flex-1 px-4 py-2.5 rounded-md bg-charcoal-700 hover:bg-gray-700 transition text-sm font-heading tracking-wide">Cancel</button>
-                <button onclick="sendBroadcast()" class="flex-1 px-4 py-2.5 rounded-md bg-thai-gold text-black hover:bg-yellow-500 transition text-sm font-heading tracking-wide font-semibold">Post</button>
+                <button onclick="closeModal('modal-broadcast')" class="flex-1 py-2 rounded bg-charcoal-700 text-sm font-heading transition">Cancel</button>
+                <button onclick="submitNotification()" class="flex-1 py-2 rounded bg-gold text-black text-sm font-heading transition font-bold shadow-lg shadow-gold/20">Send</button>
             </div>
         </div>
     </div>
 
-    <!-- Add Contact Modal -->
-    <div id="modal-add-contact" class="fixed inset-0 glass-modal z-50 hidden flex justify-center items-center p-4">
-        <div class="bg-charcoal-800 w-full max-w-sm rounded-xl p-6 slide-up border border-thai-gold/30 shadow-2xl">
-            <h3 class="text-xl text-thai-gold mb-4 font-heading">Add Emergency Contact</h3>
-            <input type="text" id="contact-name" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-3 transition" placeholder="Name (e.g. Mr. Tan)">
-            <input type="text" id="contact-role" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-3 transition" placeholder="Role (e.g. Tour Guide)">
-            <input type="text" id="contact-number" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-5 transition" placeholder="Number / Info">
-            
+    <!-- Add Contact -->
+    <div id="modal-add-contact" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-center items-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-xl p-6 border-gold/30">
+            <h3 class="text-xl font-heading text-gold mb-4">Add Contact</h3>
+            <input type="text" id="contact-name" class="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-white focus:outline-none focus:border-gold mb-3 text-sm" placeholder="Name (e.g., Tour Guide)">
+            <input type="text" id="contact-role" class="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-white focus:outline-none focus:border-gold mb-3 text-sm" placeholder="Role (e.g., Guide / Driver)">
+            <input type="text" id="contact-number" class="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-white focus:outline-none focus:border-gold mb-5 text-sm font-mono" placeholder="+66 12 345 6789">
             <div class="flex gap-3">
-                <button onclick="closeModal('modal-add-contact')" class="flex-1 px-4 py-2.5 rounded-md bg-charcoal-700 hover:bg-gray-700 transition text-sm font-heading tracking-wide">Cancel</button>
-                <button onclick="addContact()" class="flex-1 px-4 py-2.5 rounded-md bg-thai-gold text-black hover:bg-yellow-500 transition text-sm font-heading tracking-wide font-semibold">Save</button>
+                <button onclick="closeModal('modal-add-contact')" class="flex-1 py-2 rounded bg-charcoal-700 text-sm font-heading transition">Cancel</button>
+                <button onclick="submitContact()" class="flex-1 py-2 rounded bg-gold text-black text-sm font-heading transition font-bold">Save</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript & Firebase -->
+    <!-- === Core Logic & Firebase === -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // === Environment Globals ===
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'bkk-expedition-2026';
+        // =======================================================================
+        // IMPORTANT FOR GITHUB PAGES USERS:
+        // Replace the 'firebaseConfig' values below with your own Firebase project
+        // details if you want live syncing to work outside of this preview environment.
+        // Make sure to enable Anonymous Authentication in your Firebase console,
+        // and set your Firestore database rules to allow read/write!
+        // =======================================================================
         let firebaseConfig = {
-            apiKey: "AIzaSyDummyKeyPlaceholder",
-            authDomain: "dummy-project.firebaseapp.com",
-            projectId: "dummy-project",
-            storageBucket: "dummy-project.appspot.com",
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
             messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
+            appId: "1:123456789:web:abcdef123"
         };
+        
+        // Use environment injected config if available (for preview environment)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'bkk-ole-2026';
         if (typeof __firebase_config !== 'undefined') {
             firebaseConfig = JSON.parse(__firebase_config);
         }
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+        let app, db, auth;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        } catch (e) {
+            console.error("Firebase init error:", e);
+        }
 
-        // === App State ===
+        // --- App State ---
         let isAdmin = false;
         let activeDayId = 'day1';
-        let itineraryStatus = {}; // { eventId: statusInt (0=empty, 1=car, 2=check) }
-        let notifications = [];
-        let contactsList = [];
-        let myPackingState = {}; 
+        let itineraryStatus = {}; 
+        let globalNotifications = [];
+        let globalContacts = [];
 
-        // Hardcoded Itinerary Data
+        // Data Definitions
         const itineraryData = [
             {
-                id: "day1", label: "Day 1", date: "Oct 26",
+                id: "day1", label: "Day 1 (Mon 26)", date: "26 Oct",
                 events: [
-                    { id: "d1e1", time: "1000", desc: "Arrive Changi Airport T2" },
-                    { id: "d1e2", time: "1305", desc: "Flight SQ710 to BKK" },
-                    { id: "d1e3", time: "1435", desc: "Arrive Suvarnabhumi Airport" },
-                    { id: "d1e4", time: "1530", desc: "Meet Guide" },
-                    { id: "d1e5", time: "1700", desc: "Metahgym Muay Thai" },
-                    { id: "d1e6", time: "1900", desc: "Nopparat Thai Classical dance & Dinner" },
-                    { id: "d1e7", time: "2130", desc: "Hotel Check-in" },
-                    { id: "d1e8", time: "2200", desc: "Lights Out / Sleep" }
+                    { id: "d1e1", time: "1305", desc: "Flight SQ710 from SGP" },
+                    { id: "d1e2", time: "1435", desc: "Arrive BKK Suvarnabhumi" },
+                    { id: "d1e3", time: "1700", desc: "Experience Muay Thai" },
+                    { id: "d1e4", time: "1900", desc: "Nopparat Thai Dinner & Dance" },
+                    { id: "d1e5", time: "2130", desc: "Hotel Check-in & Briefing" },
+                    { id: "d1e6", time: "2200", desc: "Lights Out / Sleep" }
                 ]
             },
             {
-                id: "day2", label: "Day 2", date: "Oct 27",
+                id: "day2", label: "Day 2 (Tue 27)", date: "27 Oct",
                 events: [
                     { id: "d2e1", time: "0630", desc: "Breakfast at Hotel" },
                     { id: "d2e2", time: "0730", desc: "Leave Hotel" },
                     { id: "d2e3", time: "0830", desc: "Tingly Thai Cooking Class" },
                     { id: "d2e4", time: "1300", desc: "Museum Siam" },
                     { id: "d2e5", time: "1600", desc: "Big C Supermarket" },
-                    { id: "d2e6", time: "1800", desc: "Krungthai Bistro" },
-                    { id: "d2e7", time: "1930", desc: "Debrief" },
-                    { id: "d2e8", time: "2200", desc: "Lights Out / Sleep" }
+                    { id: "d2e6", time: "1800", desc: "Dinner at Krungthai Bistro" },
+                    { id: "d2e7", time: "2200", desc: "Lights Out / Sleep" }
                 ]
             },
             {
-                id: "day3", label: "Day 3", date: "Oct 28",
+                id: "day3", label: "Day 3 (Wed 28)", date: "28 Oct",
                 events: [
                     { id: "d3e1", time: "0630", desc: "Breakfast at Hotel" },
                     { id: "d3e2", time: "0730", desc: "Leave Hotel" },
                     { id: "d3e3", time: "1100", desc: "Qarbon Aerospace" },
                     { id: "d3e4", time: "1330", desc: "Space Inspirium" },
-                    { id: "d3e5", time: "1830", desc: "Savoey Restaurant" },
-                    { id: "d3e6", time: "2030", desc: "Debrief" },
-                    { id: "d3e7", time: "2200", desc: "Lights Out / Sleep" }
+                    { id: "d3e5", time: "1830", desc: "Dinner at Savoey" },
+                    { id: "d3e6", time: "2200", desc: "Lights Out / Sleep" }
                 ]
             },
             {
-                id: "day4", label: "Day 4", date: "Oct 29",
+                id: "day4", label: "Day 4 (Thu 29)", date: "29 Oct",
                 events: [
                     { id: "d4e1", time: "0630", desc: "Breakfast at Hotel" },
                     { id: "d4e2", time: "0730", desc: "Leave Hotel" },
                     { id: "d4e3", time: "0900", desc: "EGAT Learning Center" },
                     { id: "d4e4", time: "1400", desc: "True Digital Park" },
                     { id: "d4e5", time: "1800", desc: "Dinner" },
-                    { id: "d4e6", time: "1930", desc: "Debrief" },
-                    { id: "d4e7", time: "2200", desc: "Lights Out / Sleep" }
+                    { id: "d4e6", time: "2200", desc: "Lights Out / Sleep" }
                 ]
             },
             {
-                id: "day5", label: "Day 5", date: "Oct 30",
+                id: "day5", label: "Day 5 (Fri 30)", date: "30 Oct",
                 events: [
                     { id: "d5e1", time: "0630", desc: "Breakfast at Hotel" },
-                    { id: "d5e2", time: "0730", desc: "Leave Hotel & Check-out" },
+                    { id: "d5e2", time: "0730", desc: "Leave & Checkout" },
                     { id: "d5e3", time: "0830", desc: "GRAND PALACE" },
-                    { id: "d5e4", time: "1100", desc: "Sanaethai Lunch" },
-                    { id: "d5e5", time: "1230", desc: "Transfer to Airport" },
-                    { id: "d5e6", time: "1550", desc: "Flight SQ709" },
-                    { id: "d5e7", time: "1925", desc: "Arrive at Changi" }
+                    { id: "d5e4", time: "1550", desc: "Flight SQ709 to SGP" },
+                    { id: "d5e5", time: "1925", desc: "Arrive SGP Changi" }
                 ]
             }
         ];
 
-        // Hardcoded Packing List Data
         const packingData = [
-            { category: "Essentials", items: ["Passport / Air Ticket", "Wallet / Thai Baht", "Hand Carry Bag"] },
-            { category: "Clothing", items: ["T-shirts (5-6)", "Shorts / Bermudas", "Long Pants / Jeans", "Undergarments (6)", "Light Jacket", "Pyjamas"] },
-            { category: "Footwear", items: ["Covered Shoes (2x)", "Socks (5 pairs)"] },
-            { category: "Toiletries", items: ["Toothbrush & Paste", "Soap / Shampoo", "Face Wash", "Deodorant", "Sanitary Products"] },
-            { category: "Health & Meds", items: ["Personal Medicine", "Insect Repellent", "Thermometer", "ART Kit", "Motion Sickness Pills", "Plasters"] },
-            { category: "Miscellaneous", items: ["Phone Charger / Powerbank", "Water Bottle", "Umbrella / Poncho", "Plastic bags (laundry)", "Pens / Notebook"] }
+            { cat: "Docs & Money", items: ["Passport", "Boarding Pass", "Thai Baht", "Wallet"] },
+            { cat: "Clothing", items: ["T-shirts (5-6)", "Jeans / Pants (4-5)", "Shorts (1-2)", "Underwear (6)", "Light Jacket", "Pyjamas"] },
+            { cat: "Footwear", items: ["Comfortable Shoes", "Slippers/Sandals", "Socks (5 pairs)"] },
+            { cat: "Toiletries", items: ["Toothbrush & Paste", "Body Wash/Soap", "Shampoo", "Deodorant", "Sunscreen"] },
+            { cat: "Health", items: ["Personal Medicine", "Motion Sickness Pills", "Plasters", "Insect Repellent"] },
+            { cat: "Electronics & Misc", items: ["Phone", "Charger & Cable", "Powerbank", "Water Bottle", "Umbrella"] }
         ];
 
-        // === Authentication & Initialization ===
-        async function initApp() {
+        // --- Core Init ---
+        async function bootApp() {
             try {
-                if (typeof __initial_auth_token !== 'undefined') {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
+                } else if (auth) {
                     await signInAnonymously(auth);
                 }
-                setupFirestoreListeners();
-                renderDaySelector();
-                renderItinerary();
-                renderPackingList(); 
+                attachDBListeners();
             } catch (error) {
-                console.error("Auth error:", error);
-                showToast("Offline mode.", "error");
-                renderDaySelector();
-                renderItinerary();
-                renderPackingList();
+                console.warn("DB Connection failed. App running in local-only mode.", error);
+                window.showToast("Database not connected. Read-only mode.", "error");
             }
+            
+            renderDays();
+            renderItinerary();
+            renderLocalPackingList();
         }
 
-        function setupFirestoreListeners() {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-
-            // 1. Itinerary Status (Public)
-            const statusRef = doc(db, 'artifacts', appId, 'public', 'data', 'itinerary_status', 'master');
+        function attachDBListeners() {
+            if (!auth || !auth.currentUser) return;
+            
+            // Sync Itinerary Status
+            const statusRef = doc(db, 'artifacts', appId, 'public', 'data', 'itinerary', 'master_status');
             onSnapshot(statusRef, (docSnap) => {
                 if (docSnap.exists()) {
                     itineraryStatus = docSnap.data();
                     renderItinerary();
                 }
-            }, (err) => console.error("Sync error:", err));
+            }, err => console.error(err));
 
-            // 2. Notifications (Public)
+            // Sync Notifications
             const notifsRef = collection(db, 'artifacts', appId, 'public', 'data', 'notifications');
-            onSnapshot(notifsRef, (snapshot) => {
-                notifications = [];
-                snapshot.forEach(doc => notifications.push({ id: doc.id, ...doc.data() }));
-                notifications.sort((a, b) => b.timestamp - a.timestamp); 
+            onSnapshot(notifsRef, (snap) => {
+                globalNotifications = [];
+                snap.forEach(d => globalNotifications.push({ id: d.id, ...d.data() }));
+                globalNotifications.sort((a, b) => b.ts - a.ts);
                 renderNotifications();
-            }, (err) => console.error("Sync error:", err));
-
-            // 3. Contacts (Public)
-            const contactsRef = collection(db, 'artifacts', appId, 'public', 'data', 'contacts');
-            onSnapshot(contactsRef, (snapshot) => {
-                contactsList = [];
-                snapshot.forEach(doc => contactsList.push({ id: doc.id, ...doc.data() }));
-                // Soft sort by name
-                contactsList.sort((a,b) => a.name.localeCompare(b.name));
-                renderContacts();
-            }, (err) => console.error("Sync error:", err));
-
-            // 4. Packing List (Private)
-            const packingRef = doc(db, 'artifacts', appId, 'users', userId, 'packing_list', 'master');
-            onSnapshot(packingRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    myPackingState = docSnap.data();
-                } else {
-                    myPackingState = {};
+                
+                // Show badge if not on tab
+                if (globalNotifications.length > 0 && !document.getElementById('tab-notifications').classList.contains('active')) {
+                    document.getElementById('notif-badge').classList.remove('hidden');
                 }
-                renderPackingList();
-            }, (err) => console.error("Private sync error:", err));
+            }, err => console.error(err));
+
+            // Sync Contacts
+            const contactsRef = collection(db, 'artifacts', appId, 'public', 'data', 'contacts');
+            onSnapshot(contactsRef, (snap) => {
+                globalContacts = [];
+                snap.forEach(d => globalContacts.push({ id: d.id, ...d.data() }));
+                renderContacts();
+            }, err => console.error(err));
         }
 
-        // === UI Rendering ===
+        // --- UI Renders ---
 
-        function renderDaySelector() {
-            const container = document.getElementById('day-selector-container');
-            container.innerHTML = itineraryData.map(day => `
-                <button onclick="window.selectDay('${day.id}')" 
-                        class="px-4 py-2 rounded-full whitespace-nowrap text-sm font-heading transition-all duration-300 ease-in-out border shrink-0 hover:scale-105
-                        ${activeDayId === day.id 
-                            ? 'bg-thai-gold text-black border-thai-gold font-bold shadow-[0_0_15px_rgba(255,215,0,0.6)] animate-pulse' 
-                            : 'bg-black/30 text-gray-400 border-white/10 hover:text-white'}">
-                    ${day.label} <span class="opacity-70 text-xs ml-1 font-normal">${day.date}</span>
+        function renderDays() {
+            const cont = document.getElementById('day-tabs');
+            cont.innerHTML = itineraryData.map(day => `
+                <button onclick="window.setDay('${day.id}')" 
+                    class="px-4 py-1.5 rounded-full text-sm font-heading font-semibold whitespace-nowrap transition-all border shrink-0 
+                    ${activeDayId === day.id ? 'bg-gold text-black border-gold shadow-[0_0_10px_rgba(212,175,55,0.4)]' : 'glass-panel text-gray-400 border-transparent'}">
+                    ${day.label}
                 </button>
             `).join('');
+            document.getElementById('current-day-label').innerText = itineraryData.find(d => d.id === activeDayId).date + " Schedule";
         }
 
-        window.selectDay = (dayId) => {
-            activeDayId = dayId;
-            renderDaySelector();
+        window.setDay = (id) => {
+            activeDayId = id;
+            renderDays();
             renderItinerary();
-        };
+        }
 
         function renderItinerary() {
-            const activeDayData = itineraryData.find(d => d.id === activeDayId);
-            document.getElementById('current-day-title').innerText = `${activeDayData.label} Route`;
+            const data = itineraryData.find(d => d.id === activeDayId);
+            const cont = document.getElementById('timeline-container');
+            
+            cont.innerHTML = data.events.map((ev, i) => {
+                const status = itineraryStatus[ev.id] || 0; 
+                let iconHtml = `<div class="w-3 h-3 rounded-full bg-gray-600"></div>`; // 0: empty
+                let cardClass = "border-white/5 opacity-90";
+                let textClass = "text-gray-200";
 
-            const container = document.getElementById('itinerary-timeline');
-            
-            const getIconHTML = (status) => {
-                if (status === 1) return `<i class="ph-fill ph-car text-blue-400 drop-shadow-[0_0_6px_rgba(96,165,250,0.8)]"></i>`;
-                if (status === 2) return `<i class="ph-fill ph-check-circle text-green-500 drop-shadow-[0_0_6px_rgba(34,197,94,0.8)]"></i>`;
-                return `<i class="ph ph-circle text-gray-500"></i>`; // 0 or undefined
-            };
-            
-            container.innerHTML = `
-                <!-- Vertical Line -->
-                <div class="absolute left-[26px] top-[10px] bottom-0 w-[2px] bg-gradient-to-b from-thai-gold/50 via-white/10 to-transparent z-0"></div>
-                
-                ${activeDayData.events.map((ev, idx) => {
-                    const currentStatus = itineraryStatus[ev.id] || 0;
-                    const completedClass = currentStatus === 2 ? 'opacity-50 text-gray-400 line-through' : 'text-gray-100';
-                    const activeClass = currentStatus === 1 ? 'border-blue-400/30 bg-blue-900/10' : 'border-white/5';
-                    
-                    return `
-                    <div class="flex items-center gap-4 relative z-10 animate-fade-in-up opacity-0" style="animation-delay: ${idx * 0.1}s">
-                        <!-- Status Node -->
-                        <div class="w-8 h-8 rounded-full bg-charcoal-900 border border-white/20 flex items-center justify-center cursor-pointer text-xl shrink-0 transition-all duration-300 ease-in-out hover:scale-110 shadow-lg"
-                             onclick="window.cycleStatus('${ev.id}')" title="Change Status">
-                            ${getIconHTML(currentStatus)}
-                        </div>
-                        
-                        <!-- Event Card -->
-                        <div class="glass flex-1 p-3.5 rounded-xl flex items-center gap-3 ${activeClass} transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/10">
-                            <span class="text-sm font-bold font-mono text-thai-gold shrink-0">${ev.time}</span>
-                            <span class="text-[14px] ${completedClass} leading-tight">${ev.desc}</span>
-                        </div>
+                if (status === 1) {
+                    iconHtml = `<i class="ph-fill ph-car text-yellow-500 bg-black rounded-full text-lg drop-shadow-[0_0_5px_rgba(234,179,8,0.8)]"></i>`;
+                    cardClass = "border-yellow-500/30 bg-yellow-500/10";
+                } else if (status === 2) {
+                    iconHtml = `<i class="ph-fill ph-check-circle text-green-500 bg-black rounded-full text-lg"></i>`;
+                    textClass = "text-gray-500 line-through";
+                }
+
+                return `
+                <div class="relative flex items-center gap-4 animate-fade-in-up" style="animation-delay: ${i*0.05}s; opacity:0;">
+                    <!-- Line connector node -->
+                    <div class="absolute -left-[23px] flex items-center justify-center w-8 h-8 bg-charcoal-900 cursor-pointer hover:scale-110 transition z-10"
+                         onclick="window.cycleStatus('${ev.id}')">
+                        ${iconHtml}
                     </div>
-                    `;
-                }).join('')}
-            `;
+                    
+                    <div class="glass-panel flex-1 rounded-xl p-3.5 flex items-center gap-3 transition-colors ${cardClass}">
+                        <div class="text-gold font-mono font-bold text-sm shrink-0 w-12">${ev.time}</div>
+                        <div class="font-body text-[14px] leading-tight ${textClass}">${ev.desc}</div>
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         function renderNotifications() {
-            const container = document.getElementById('notifications-container');
-            if (notifications.length === 0) {
-                container.innerHTML = `<div class="text-center p-6 text-gray-500 text-sm glass hover-elevate rounded-xl fade-in-up border-dashed">No announcements.</div>`;
+            const cont = document.getElementById('notifications-list');
+            if (globalNotifications.length === 0) {
+                cont.innerHTML = `<div class="glass-panel p-5 text-center text-gray-500 text-sm rounded-xl italic">No announcements yet.</div>`;
                 return;
             }
-
-            container.innerHTML = notifications.map((notif, idx) => {
-                const date = new Date(notif.timestamp);
-                const timeStr = date.toLocaleString('en-US', { weekday: 'short', hour: '2-digit', minute: '2-digit' });
+            
+            cont.innerHTML = globalNotifications.map((n, i) => {
+                const date = new Date(n.ts);
+                const timeStr = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 return `
-                <div class="glass p-4 rounded-xl animate-fade-in-up opacity-0 border-l-4 border-l-thai-gold relative overflow-hidden transition-all duration-300 ease-in-out hover:scale-105" style="animation-delay: ${idx * 0.1}s">
-                    <div class="flex justify-between items-start mb-1">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-thai-gold uppercase"><i class="ph-fill ph-clock mr-1"></i>${timeStr}</span>
-                            ${notif.location ? `<span class="text-[10px] text-gray-400 bg-black/40 px-2 py-0.5 rounded-sm"><i class="ph-fill ph-map-pin mr-1"></i>${notif.location}</span>` : ''}
+                <div class="glass-panel p-4 rounded-xl border-l-2 border-gold animate-fade-in-up" style="animation-delay: ${i*0.05}s; opacity:0;">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex flex-col">
+                            <span class="text-gold font-heading font-bold text-sm">${timeStr}</span>
+                            ${n.place ? `<span class="text-[10px] text-gray-400 uppercase tracking-widest"><i class="ph-fill ph-map-pin mr-1"></i>${n.place}</span>` : ''}
                         </div>
-                        ${isAdmin ? `<button onclick="window.deleteNotification('${notif.id}')" class="text-gray-500 hover:text-thai-crimson transition"><i class="ph ph-trash"></i></button>` : ''}
+                        ${isAdmin ? `<button onclick="window.delNotif('${n.id}')" class="text-gray-500 hover:text-crimson transition"><i class="ph ph-trash"></i></button>` : ''}
                     </div>
-                    <p class="text-[14px] text-gray-200 whitespace-pre-wrap mt-2 leading-relaxed">${notif.message}</p>
-                </div>
-                `;
+                    <p class="text-sm text-gray-200 leading-relaxed whitespace-pre-wrap">${n.msg}</p>
+                </div>`;
             }).join('');
         }
 
         function renderContacts() {
-            const container = document.getElementById('contacts-container');
-            if (contactsList.length === 0) {
-                container.innerHTML = `<div class="text-center p-6 text-gray-500 text-sm glass hover-elevate rounded-xl fade-in-up border-dashed">No contacts added.</div>`;
+            const cont = document.getElementById('contacts-list');
+            if (globalContacts.length === 0) {
+                cont.innerHTML = `<div class="glass-panel p-5 text-center text-gray-500 text-sm rounded-xl italic">No contacts added.</div>`;
                 return;
             }
-
-            container.innerHTML = contactsList.map((contact, idx) => `
-                <div class="glass p-3.5 rounded-xl flex justify-between items-center animate-fade-in-up opacity-0 border-t border-white/5 transition-all duration-300 ease-in-out hover:scale-105" style="animation-delay: ${idx * 0.1}s">
+            
+            cont.innerHTML = globalContacts.map((c, i) => `
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between animate-fade-in-up" style="animation-delay: ${i*0.05}s; opacity:0;">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-charcoal-900 border border-thai-gold/20 flex items-center justify-center text-thai-gold">
-                            <i class="ph-fill ph-phone-call text-xl"></i>
+                        <div class="w-10 h-10 rounded-full bg-black border border-gold/30 flex items-center justify-center text-gold text-lg shrink-0">
+                            <i class="ph-fill ph-phone-call"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-gray-100 text-[15px] leading-tight">${contact.name}</div>
-                            <div class="text-[12px] text-thai-gold/80 font-medium">${contact.role}</div>
-                            <div class="text-[13px] text-gray-400 mt-0.5 font-mono">${contact.number}</div>
+                            <div class="text-[15px] font-bold text-gray-100 leading-none mb-1">${c.name}</div>
+                            <div class="text-[11px] text-gold uppercase tracking-wider mb-1">${c.role}</div>
+                            <div class="text-[13px] text-gray-300 font-mono">${c.phone}</div>
                         </div>
                     </div>
-                    ${isAdmin ? `<button onclick="window.deleteContact('${contact.id}')" class="p-2 text-gray-500 hover:text-thai-crimson transition"><i class="ph ph-trash text-lg"></i></button>` : ''}
+                    ${isAdmin ? `<button onclick="window.delContact('${c.id}')" class="p-2 text-gray-500 hover:text-crimson transition"><i class="ph ph-trash text-lg"></i></button>` : ''}
                 </div>
             `).join('');
         }
 
-        function renderPackingList() {
-            const container = document.getElementById('packing-container');
+        // LOCAL STORAGE strictly for packing list
+        function renderLocalPackingList() {
+            const lsData = JSON.parse(localStorage.getItem('bkk_packing_2026') || '{}');
+            const cont = document.getElementById('packing-list');
             
-            container.innerHTML = packingData.map((categoryObj, cIdx) => `
-                <div class="animate-fade-in-up opacity-0 mb-6" style="animation-delay: ${cIdx * 0.1}s">
-                    <h3 class="text-sm font-heading text-thai-gold/80 mb-2 tracking-widest uppercase border-b border-white/10 pb-1">${categoryObj.category}</h3>
-                    <div class="glass rounded-xl overflow-hidden border border-white/5 transition-all duration-300 ease-in-out hover:scale-105">
-                        ${categoryObj.items.map((item, iIdx) => {
-                            const itemId = `pack_${cIdx}_${iIdx}`;
-                            const isChecked = myPackingState[itemId] === true;
-                            const borderClass = iIdx < categoryObj.items.length - 1 ? 'border-b border-white/5' : '';
+            cont.innerHTML = packingData.map((cat, cIdx) => `
+                <div class="animate-fade-in-up mb-5" style="animation-delay: ${cIdx*0.1}s; opacity:0;">
+                    <h3 class="text-xs font-heading text-gold uppercase tracking-widest mb-2 border-b border-white/10 pb-1">${cat.cat}</h3>
+                    <div class="glass-panel rounded-xl overflow-hidden flex flex-col">
+                        ${cat.items.map((item, iIdx) => {
+                            const id = `p_${cIdx}_${iIdx}`;
+                            const isChecked = lsData[id] === true;
+                            const borderCls = iIdx < cat.items.length - 1 ? 'border-b border-white/5' : '';
                             return `
-                            <label class="flex items-center gap-3 p-3 hover:bg-white/5 transition cursor-pointer select-none ${borderClass}">
-                                <input type="checkbox" class="pack-checkbox" 
-                                       ${isChecked ? 'checked' : ''} 
-                                       onchange="window.togglePackingItem('${itemId}')">
-                                <span class="text-sm ${isChecked ? 'text-gray-500 line-through' : 'text-gray-200'} transition-colors">${item}</span>
-                            </label>
-                            `;
+                            <label class="flex items-center gap-3 p-3 hover:bg-white/5 transition cursor-pointer select-none ${borderCls}">
+                                <input type="checkbox" class="custom-checkbox shrink-0" 
+                                    ${isChecked ? 'checked' : ''} 
+                                    onchange="window.togglePackItem('${id}', this.checked)">
+                                <span class="text-[14px] ${isChecked ? 'text-gray-500 line-through' : 'text-gray-200'} transition-colors">${item}</span>
+                            </label>`;
                         }).join('')}
                     </div>
                 </div>
             `).join('');
         }
 
-        // === Interactions & Logic ===
+        window.togglePackItem = (id, state) => {
+            const lsData = JSON.parse(localStorage.getItem('bkk_packing_2026') || '{}');
+            lsData[id] = state;
+            localStorage.setItem('bkk_packing_2026', JSON.stringify(lsData));
+            renderLocalPackingList(); // re-render to update text styles
+        }
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            let icon = 'ph-info';
-            if (type === 'error') icon = 'ph-warning-circle';
-            if (type === 'success') icon = 'ph-check-circle';
+        // --- Interactions & Admin Logic ---
 
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<i class="ph-fill ${icon} text-xl"></i> <span>${message}</span>`;
-            
-            container.appendChild(toast);
-            
+        // Custom Toast
+        window.showToast = (msg, type='info') => {
+            const box = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            el.className = `toast ${type}`;
+            let icon = type === 'success' ? 'ph-check-circle' : type === 'error' ? 'ph-warning' : 'ph-info';
+            el.innerHTML = `<i class="ph-fill ${icon} text-lg"></i> <span>${msg}</span>`;
+            box.appendChild(el);
             setTimeout(() => {
-                toast.style.animation = 'slideDown 0.3s ease reverse forwards';
-                setTimeout(() => toast.remove(), 300);
+                el.style.animation = 'slideDownToast 0.4s ease reverse forwards';
+                setTimeout(() => el.remove(), 400);
             }, 3000);
         }
 
-        // Tab Switching
-        document.querySelectorAll('.nav-btn').forEach(btn => {
+        // Tab Navigation
+        document.querySelectorAll('.nav-item').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.nav-btn').forEach(b => {
-                    b.classList.remove('text-thai-gold');
-                    b.classList.add('text-gray-500');
+                // Reset styling
+                document.querySelectorAll('.nav-item').forEach(b => {
+                    b.classList.remove('text-gold'); b.classList.add('text-gray-500');
                     b.querySelector('i').classList.replace('ph-fill', 'ph');
                 });
-                btn.classList.add('text-thai-gold');
-                btn.classList.remove('text-gray-500');
+                // Set active styling
+                btn.classList.remove('text-gray-500'); btn.classList.add('text-gold');
                 btn.querySelector('i').classList.replace('ph', 'ph-fill');
 
-                const targetId = btn.getAttribute('data-target');
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(targetId).classList.add('active');
+                // Clear badges if clicking notifications
+                if (btn.getAttribute('data-target') === 'tab-notifications') {
+                    document.getElementById('notif-badge').classList.add('hidden');
+                }
+
+                // Switch content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(btn.getAttribute('data-target')).classList.add('active');
                 window.scrollTo(0,0);
             });
         });
 
-        // Security: Obfuscated Admin Validation
-        // 'msjang' -> [109, 115, 106, 97, 110, 103]
-        window.attemptAdminLogin = () => {
-            const input = document.getElementById('admin-password').value;
-            if (!input) return;
+        // Modals
+        window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
+        window.closeModal = (id) => {
+            document.getElementById(id).classList.add('hidden');
+            document.querySelectorAll(`#${id} input, #${id} textarea`).forEach(el => el.value = '');
+        }
 
-            const targetCodes = [109, 115, 106, 97, 110, 103];
-            const inputCodes = input.split('').map(c => c.charCodeAt(0));
+        // Admin Auth ("msjang")
+        document.getElementById('btn-admin-unlock').addEventListener('click', () => {
+            if (isAdmin) { window.showToast("Admin already active.", "info"); return; }
+            openModal('modal-admin');
+        });
 
-            const isValid = targetCodes.length === inputCodes.length && 
-                            targetCodes.every((val, index) => val === inputCodes[index]);
-
+        window.verifyAdmin = () => {
+            const pass = document.getElementById('admin-pass').value;
+            // Obfuscated check for "msjang"
+            const expected = [109, 115, 106, 97, 110, 103];
+            const isValid = pass.length === expected.length && pass.split('').every((c, i) => c.charCodeAt(0) === expected[i]);
+            
             if (isValid) {
                 isAdmin = true;
-                showToast("Admin access granted.", "success");
                 closeModal('modal-admin');
+                document.getElementById('btn-admin-unlock').innerHTML = `<i class="ph-fill ph-lock-open text-gold text-xl drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] animate-pulse-glow"></i>`;
                 
-                const lockBtn = document.getElementById('admin-toggle-btn');
-                lockBtn.innerHTML = '<i class="ph-fill ph-lock-open text-thai-gold text-xl"></i>';
+                // Show admin elements
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 
-                document.getElementById('btn-show-broadcast').classList.remove('hidden');
-                document.getElementById('btn-show-add-contact').classList.remove('hidden');
-                
+                window.showToast("Teacher access granted.", "success");
                 renderItinerary();
                 renderNotifications();
                 renderContacts();
             } else {
-                showToast("Access Denied.", "error");
-                document.getElementById('admin-password').value = '';
+                window.showToast("Incorrect passcode.", "error");
+                document.getElementById('admin-pass').value = '';
             }
-        };
+        }
 
-        // Modal Controllers
-        window.openModal = (id) => {
-            document.getElementById(id).classList.remove('hidden');
-        };
-
-        window.closeModal = (id) => {
-            const modal = document.getElementById(id);
-            modal.classList.add('hidden');
-            modal.querySelectorAll('input, textarea').forEach(i => i.value = '');
-        };
-
-        // Hooks
-        document.getElementById('admin-toggle-btn').addEventListener('click', () => {
-            if (!isAdmin) {
-                openModal('modal-admin');
-                setTimeout(() => document.getElementById('admin-password').focus(), 100);
-            } else {
-                showToast("Admin mode active.", "info");
-            }
-        });
-        document.getElementById('btn-show-broadcast').addEventListener('click', () => {
-            openModal('modal-broadcast');
-            setTimeout(() => document.getElementById('broadcast-location').focus(), 100);
-        });
-        document.getElementById('btn-show-add-contact').addEventListener('click', () => {
-            openModal('modal-add-contact');
-            setTimeout(() => document.getElementById('contact-name').focus(), 100);
-        });
-
-        // Global function: Itinerary Toggle
+        // Global Actions (Requires Admin + Firebase DB Connection)
         window.cycleStatus = async (evId) => {
-            if (!isAdmin) {
-                showToast("Admin access required to update route status.", "error");
-                return;
-            }
-            if (!auth.currentUser) return;
-
-            const current = itineraryStatus[evId] || 0;
-            // Cycle: 0 (empty) -> 1 (car) -> 2 (check) -> 0
-            const next = (current + 1) % 3;
+            if (!isAdmin) { window.showToast("Teacher login required to edit route.", "error"); return; }
+            if (!auth || !auth.currentUser) { window.showToast("DB disconnected.", "error"); return; }
+            
+            const curr = itineraryStatus[evId] || 0;
+            const next = (curr + 1) % 3; // 0->1->2->0
             
             itineraryStatus[evId] = next;
-            renderItinerary();
+            renderItinerary(); // optimistic
 
             try {
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'itinerary_status', 'master');
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'itinerary', 'master_status');
                 await setDoc(docRef, { [evId]: next }, { merge: true });
             } catch (err) {
                 console.error(err);
-                showToast("Network sync failed.", "error");
-                itineraryStatus[evId] = current;
-                renderItinerary();
-            }
-        };
-
-        // Global function: Packing List Toggle (Private)
-        window.togglePackingItem = async (itemId) => {
-            const userId = auth.currentUser?.uid;
-            if (!userId) {
-                showToast("Connecting to cloud...", "info");
-                return;
-            }
-
-            const current = myPackingState[itemId] || false;
-            myPackingState[itemId] = !current;
-            renderPackingList(); // Optimistic update
-
-            try {
-                const packingRef = doc(db, 'artifacts', appId, 'users', userId, 'packing_list', 'master');
-                await setDoc(packingRef, { [itemId]: !current }, { merge: true });
-            } catch (err) {
-                console.error(err);
+                window.showToast("Failed to sync.", "error");
             }
         }
 
-        // Global function: Add Notification
-        window.sendBroadcast = async () => {
-            const msg = document.getElementById('broadcast-message').value.trim();
-            const loc = document.getElementById('broadcast-location').value.trim();
-            if (!msg) { showToast("Message required.", "error"); return; }
-            if (!auth.currentUser || !isAdmin) return;
+        window.submitNotification = async () => {
+            if (!isAdmin) return;
+            const msg = document.getElementById('notif-msg').value.trim();
+            const place = document.getElementById('notif-place').value.trim();
+            if (!msg) { window.showToast("Message is required.", "error"); return; }
 
             try {
-                const notifsRef = collection(db, 'artifacts', appId, 'public', 'data', 'notifications');
-                await addDoc(notifsRef, {
-                    message: msg,
-                    location: loc,
-                    timestamp: Date.now()
-                });
-                showToast("Announcement posted.", "success");
+                const ref = collection(db, 'artifacts', appId, 'public', 'data', 'notifications');
+                await addDoc(ref, { msg, place, ts: Date.now() });
+                window.showToast("Announcement sent.", "success");
                 closeModal('modal-broadcast');
             } catch (err) {
                 console.error(err);
-                showToast("Post failed.", "error");
+                window.showToast("Failed to post.", "error");
             }
-        };
+        }
+        
+        window.delNotif = async (id) => {
+            if (!isAdmin) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'notifications', id));
+            } catch(e) {}
+        }
 
-        // Global function: Add Contact
-        window.addContact = async () => {
+        window.submitContact = async () => {
+            if (!isAdmin) return;
             const name = document.getElementById('contact-name').value.trim();
             const role = document.getElementById('contact-role').value.trim();
-            const number = document.getElementById('contact-number').value.trim();
-            
-            if (!name || !number) { showToast("Name and Number required.", "error"); return; }
-            if (!auth.currentUser || !isAdmin) return;
+            const phone = document.getElementById('contact-number').value.trim();
+            if (!name || !phone) { window.showToast("Name and Number required.", "error"); return; }
 
             try {
-                const contactsRef = collection(db, 'artifacts', appId, 'public', 'data', 'contacts');
-                await addDoc(contactsRef, { name, role, number });
-                showToast("Contact saved.", "success");
+                const ref = collection(db, 'artifacts', appId, 'public', 'data', 'contacts');
+                await addDoc(ref, { name, role, phone });
+                window.showToast("Contact added.", "success");
                 closeModal('modal-add-contact');
             } catch (err) {
                 console.error(err);
-                showToast("Operation failed.", "error");
-            }
-        };
-
-        // Global functions: Deletions
-        window.deleteContact = async (id) => {
-            if (!isAdmin) return;
-            try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contacts', id));
-                showToast("Contact deleted.", "info");
-            } catch (err) {
-                console.error(err);
-                showToast("Delete failed.", "error");
-            }
-        };
-
-        window.deleteNotification = async (id) => {
-             if (!isAdmin) return;
-            try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'notifications', id));
-                showToast("Announcement removed.", "info");
-            } catch (err) {
-                console.error(err);
-                showToast("Delete failed.", "error");
+                window.showToast("Failed to save.", "error");
             }
         }
 
-        // Initialize App on Load
-        window.addEventListener('DOMContentLoaded', initApp);
+        window.delContact = async (id) => {
+            if (!isAdmin) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contacts', id));
+            } catch(e) {}
+        }
 
+        // Start
+        window.addEventListener('DOMContentLoaded', bootApp);
     </script>
 </body>
 </html>
