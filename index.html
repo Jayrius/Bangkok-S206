@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bangkok 2026 S2-06 OLE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'prompt': ['"Prompt"', 'sans-serif'],
+                        'sarabun': ['"Sarabun"', 'sans-serif'],
+                    },
+                    colors: {
+                        charcoal: {
+                            900: '#121212',
+                            800: '#1e1e1e',
+                            700: '#2d2d2d',
+                        },
+                        thai: {
+                            gold: '#FFD700',
+                            goldDark: '#CCAC00',
+                            crimson: '#C90016',
+                            crimsonDark: '#990011',
+                        }
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 50%, #2d1a1a 100%);
+            background-attachment: fixed;
+            color: #f3f4f6;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        h1, h2, h3, h4, h5, .font-heading {
+            font-family: 'Prompt', sans-serif;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.15); /* Subtle gold border */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-nav {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .glass-modal {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.3s ease-out forwards;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
+            to { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+        }
+
+        .hover-elevate {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-elevate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.5); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.8); }
+
+        /* Hide scrollbar for horizontal scroll areas but allow scroll */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Toast Container */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 90%;
+            max-w: 400px;
+        }
+        .toast {
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease forwards;
+            font-family: 'Prompt', sans-serif;
+        }
+        .toast.error { background: rgba(153, 0, 0, 0.95); border: 1px solid #ff4d4d; }
+        .toast.success { background: rgba(212, 175, 55, 0.95); color: #000; border: 1px solid #ffe885; }
+        .toast.info { background: rgba(30, 30, 30, 0.95); border: 1px solid #D4AF37; color: #D4AF37;}
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Checkbox specific */
+        .pack-checkbox {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #555;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            background: rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .pack-checkbox:checked {
+            background: #D4AF37;
+            border-color: #D4AF37;
+        }
+        .pack-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: #000;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="antialiased flex justify-center">
+
+    <div id="toast-container"></div>
+
+    <div class="w-full max-w-md min-h-screen relative flex flex-col pb-24 shadow-2xl bg-charcoal-900/40">
+        
+        <!-- Header -->
+        <header class="sticky top-0 z-40 px-6 py-5 flex justify-between items-center bg-gradient-to-b from-charcoal-900 to-transparent">
+            <div>
+                <h1 class="text-2xl font-heading text-transparent bg-clip-text bg-gradient-to-r from-thai-gold to-yellow-200 tracking-wide animate-pulse">BANGKOK 2026 S2-06</h1>
+                <p class="text-[11px] text-gray-400 font-medium tracking-widest uppercase">OLE</p>
+            </div>
+            <button id="admin-toggle-btn" class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-thai-gold transition-all duration-300 ease-in-out hover:scale-105">
+                <i class="ph ph-lock-key text-xl"></i>
+            </button>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow px-4 pb-6">
+            
+            <!-- Tab 1: Itinerary -->
+            <section id="tab-itinerary" class="tab-content active">
+                
+                <!-- Day Selector -->
+                <div class="flex overflow-x-auto hide-scroll gap-2 mb-6 pb-2 border-b border-white/10" id="day-selector-container">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="flex justify-between items-end mb-4 px-1">
+                    <h2 class="text-xl font-heading text-thai-gold" id="current-day-title">Day 1 Details</h2>
+                    <div class="text-[10px] text-gray-400 flex gap-2 font-medium bg-black/40 px-2 py-1 rounded-md border border-white/10 uppercase">
+                        <span class="flex items-center gap-1"><i class="ph ph-circle"></i> Wait</span>
+                        <span class="flex items-center gap-1 text-blue-400"><i class="ph-fill ph-car"></i> Transit</span>
+                        <span class="flex items-center gap-1 text-green-500"><i class="ph-fill ph-check-circle"></i> Done</span>
+                    </div>
+                </div>
+
+                <!-- Timeline Container -->
+                <div id="itinerary-timeline" class="space-y-4 relative pl-3">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Tab 2: Notifications -->
+            <section id="tab-notifications" class="tab-content">
+                <div class="flex justify-between items-center mb-5 px-1">
+                    <h2 class="text-xl font-heading text-thai-gold">Announcements</h2>
+                    <button id="btn-show-broadcast" class="hidden glass px-3 py-1.5 rounded-md text-xs text-white hover:bg-white/10 transition flex items-center gap-1">
+                        <i class="ph ph-megaphone text-thai-gold"></i> Post
+                    </button>
+                </div>
+                <div id="notifications-container" class="space-y-4">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Tab 3: Contacts -->
+            <section id="tab-contacts" class="tab-content">
+                <div class="flex justify-between items-center mb-5 px-1">
+                    <h2 class="text-xl font-heading text-thai-gold">Key Contacts</h2>
+                    <button id="btn-show-add-contact" class="hidden glass px-3 py-1.5 rounded-md text-xs text-white hover:bg-white/10 transition flex items-center gap-1">
+                        <i class="ph ph-user-plus text-thai-gold"></i> Add
+                    </button>
+                </div>
+                <div id="contacts-container" class="space-y-3">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Tab 4: Packing List -->
+            <section id="tab-packing" class="tab-content">
+                <div class="mb-5 px-1">
+                    <h2 class="text-xl font-heading text-thai-gold">Gear Checklist</h2>
+                    <p class="text-[12px] text-gray-400 mt-1">Your personal checklist. Syncs securely to your session.</p>
+                </div>
+                <div id="packing-container" class="space-y-4">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 w-full max-w-md glass-nav z-40 pb-safe">
+            <div class="flex justify-around items-center p-2">
+                <button class="nav-btn flex flex-col items-center p-2 text-thai-gold w-16 transition-colors" data-target="tab-itinerary">
+                    <i class="ph-fill ph-map-trifold text-2xl mb-1"></i>
+                    <span class="text-[10px] font-heading uppercase tracking-widest">Route</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center p-2 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-notifications">
+                    <i class="ph ph-bell-ringing text-2xl mb-1"></i>
+                    <span class="text-[10px] font-heading uppercase tracking-widest">Alerts</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center p-2 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-contacts">
+                    <i class="ph ph-address-book text-2xl mb-1"></i>
+                    <span class="text-[10px] font-heading uppercase tracking-widest">Comms</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center p-2 text-gray-500 hover:text-gray-300 w-16 transition-colors" data-target="tab-packing">
+                    <i class="ph ph-backpack text-2xl mb-1"></i>
+                    <span class="text-[10px] font-heading uppercase tracking-widest">Pack</span>
+                </button>
+            </div>
+        </nav>
+
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Admin Login Modal -->
+    <div id="modal-admin" class="fixed inset-0 glass-modal z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-charcoal-800 w-full max-w-sm rounded-xl p-6 slide-up border border-thai-gold/30 shadow-2xl">
+            <h3 class="text-xl text-thai-gold mb-1 font-heading">Admin Access</h3>
+            <p class="text-sm text-gray-400 mb-5">Enter authorization code to manage expedition data.</p>
+            <input type="password" id="admin-password" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-5 transition font-mono" placeholder="Code...">
+            <div class="flex gap-3">
+                <button onclick="closeModal('modal-admin')" class="flex-1 px-4 py-2.5 rounded-md bg-charcoal-700 hover:bg-gray-700 transition text-sm font-heading tracking-wide">Cancel</button>
+                <button onclick="attemptAdminLogin()" class="flex-1 px-4 py-2.5 rounded-md bg-thai-crimson hover:bg-thai-crimsonDark text-white transition text-sm font-heading tracking-wide border border-red-500/20">Authenticate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Broadcast Modal -->
+    <div id="modal-broadcast" class="fixed inset-0 glass-modal z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-charcoal-800 w-full max-w-sm rounded-xl p-6 slide-up border border-thai-gold/30 shadow-2xl">
+            <h3 class="text-xl text-thai-gold mb-4 font-heading">Post Announcement</h3>
+            
+            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wide">Location / Context</label>
+            <input type="text" id="broadcast-location" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-3 py-2.5 text-white focus:outline-none focus:border-thai-gold mb-4 transition text-sm" placeholder="e.g. Hotel Lobby, Coach Bus">
+            
+            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wide">Message</label>
+            <textarea id="broadcast-message" rows="3" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-3 py-2.5 text-white focus:outline-none focus:border-thai-gold mb-5 transition resize-none text-sm" placeholder="Enter details..."></textarea>
+            
+            <div class="flex gap-3">
+                <button onclick="closeModal('modal-broadcast')" class="flex-1 px-4 py-2.5 rounded-md bg-charcoal-700 hover:bg-gray-700 transition text-sm font-heading tracking-wide">Cancel</button>
+                <button onclick="sendBroadcast()" class="flex-1 px-4 py-2.5 rounded-md bg-thai-gold text-black hover:bg-yellow-500 transition text-sm font-heading tracking-wide font-semibold">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Contact Modal -->
+    <div id="modal-add-contact" class="fixed inset-0 glass-modal z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-charcoal-800 w-full max-w-sm rounded-xl p-6 slide-up border border-thai-gold/30 shadow-2xl">
+            <h3 class="text-xl text-thai-gold mb-4 font-heading">Add Emergency Contact</h3>
+            <input type="text" id="contact-name" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-3 transition" placeholder="Name (e.g. Mr. Tan)">
+            <input type="text" id="contact-role" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-3 transition" placeholder="Role (e.g. Tour Guide)">
+            <input type="text" id="contact-number" class="w-full bg-charcoal-900 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-thai-gold mb-5 transition" placeholder="Number / Info">
+            
+            <div class="flex gap-3">
+                <button onclick="closeModal('modal-add-contact')" class="flex-1 px-4 py-2.5 rounded-md bg-charcoal-700 hover:bg-gray-700 transition text-sm font-heading tracking-wide">Cancel</button>
+                <button onclick="addContact()" class="flex-1 px-4 py-2.5 rounded-md bg-thai-gold text-black hover:bg-yellow-500 transition text-sm font-heading tracking-wide font-semibold">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript & Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // === Environment Globals ===
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'bkk-expedition-2026';
+        let firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyPlaceholder",
+            authDomain: "dummy-project.firebaseapp.com",
+            projectId: "dummy-project",
+            storageBucket: "dummy-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
+        };
+        if (typeof __firebase_config !== 'undefined') {
+            firebaseConfig = JSON.parse(__firebase_config);
+        }
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // === App State ===
+        let isAdmin = false;
+        let activeDayId = 'day1';
+        let itineraryStatus = {}; // { eventId: statusInt (0=empty, 1=car, 2=check) }
+        let notifications = [];
+        let contactsList = [];
+        let myPackingState = {}; 
+
+        // Hardcoded Itinerary Data
+        const itineraryData = [
+            {
+                id: "day1", label: "Day 1", date: "Oct 26",
+                events: [
+                    { id: "d1e1", time: "1000", desc: "Arrive Changi Airport T2" },
+                    { id: "d1e2", time: "1305", desc: "Flight SQ710 to BKK" },
+                    { id: "d1e3", time: "1435", desc: "Arrive Suvarnabhumi Airport" },
+                    { id: "d1e4", time: "1530", desc: "Meet Guide" },
+                    { id: "d1e5", time: "1700", desc: "Metahgym Muay Thai" },
+                    { id: "d1e6", time: "1900", desc: "Nopparat Thai Classical dance & Dinner" },
+                    { id: "d1e7", time: "2130", desc: "Hotel Check-in" },
+                    { id: "d1e8", time: "2200", desc: "Lights Out / Sleep" }
+                ]
+            },
+            {
+                id: "day2", label: "Day 2", date: "Oct 27",
+                events: [
+                    { id: "d2e1", time: "0630", desc: "Breakfast at Hotel" },
+                    { id: "d2e2", time: "0730", desc: "Leave Hotel" },
+                    { id: "d2e3", time: "0830", desc: "Tingly Thai Cooking Class" },
+                    { id: "d2e4", time: "1300", desc: "Museum Siam" },
+                    { id: "d2e5", time: "1600", desc: "Big C Supermarket" },
+                    { id: "d2e6", time: "1800", desc: "Krungthai Bistro" },
+                    { id: "d2e7", time: "1930", desc: "Debrief" },
+                    { id: "d2e8", time: "2200", desc: "Lights Out / Sleep" }
+                ]
+            },
+            {
+                id: "day3", label: "Day 3", date: "Oct 28",
+                events: [
+                    { id: "d3e1", time: "0630", desc: "Breakfast at Hotel" },
+                    { id: "d3e2", time: "0730", desc: "Leave Hotel" },
+                    { id: "d3e3", time: "1100", desc: "Qarbon Aerospace" },
+                    { id: "d3e4", time: "1330", desc: "Space Inspirium" },
+                    { id: "d3e5", time: "1830", desc: "Savoey Restaurant" },
+                    { id: "d3e6", time: "2030", desc: "Debrief" },
+                    { id: "d3e7", time: "2200", desc: "Lights Out / Sleep" }
+                ]
+            },
+            {
+                id: "day4", label: "Day 4", date: "Oct 29",
+                events: [
+                    { id: "d4e1", time: "0630", desc: "Breakfast at Hotel" },
+                    { id: "d4e2", time: "0730", desc: "Leave Hotel" },
+                    { id: "d4e3", time: "0900", desc: "EGAT Learning Center" },
+                    { id: "d4e4", time: "1400", desc: "True Digital Park" },
+                    { id: "d4e5", time: "1800", desc: "Dinner" },
+                    { id: "d4e6", time: "1930", desc: "Debrief" },
+                    { id: "d4e7", time: "2200", desc: "Lights Out / Sleep" }
+                ]
+            },
+            {
+                id: "day5", label: "Day 5", date: "Oct 30",
+                events: [
+                    { id: "d5e1", time: "0630", desc: "Breakfast at Hotel" },
+                    { id: "d5e2", time: "0730", desc: "Leave Hotel & Check-out" },
+                    { id: "d5e3", time: "0830", desc: "GRAND PALACE" },
+                    { id: "d5e4", time: "1100", desc: "Sanaethai Lunch" },
+                    { id: "d5e5", time: "1230", desc: "Transfer to Airport" },
+                    { id: "d5e6", time: "1550", desc: "Flight SQ709" },
+                    { id: "d5e7", time: "1925", desc: "Arrive at Changi" }
+                ]
+            }
+        ];
+
+        // Hardcoded Packing List Data
+        const packingData = [
+            { category: "Essentials", items: ["Passport / Air Ticket", "Wallet / Thai Baht", "Hand Carry Bag"] },
+            { category: "Clothing", items: ["T-shirts (5-6)", "Shorts / Bermudas", "Long Pants / Jeans", "Undergarments (6)", "Light Jacket", "Pyjamas"] },
+            { category: "Footwear", items: ["Covered Shoes (2x)", "Socks (5 pairs)"] },
+            { category: "Toiletries", items: ["Toothbrush & Paste", "Soap / Shampoo", "Face Wash", "Deodorant", "Sanitary Products"] },
+            { category: "Health & Meds", items: ["Personal Medicine", "Insect Repellent", "Thermometer", "ART Kit", "Motion Sickness Pills", "Plasters"] },
+            { category: "Miscellaneous", items: ["Phone Charger / Powerbank", "Water Bottle", "Umbrella / Poncho", "Plastic bags (laundry)", "Pens / Notebook"] }
+        ];
+
+        // === Authentication & Initialization ===
+        async function initApp() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                setupFirestoreListeners();
+                renderDaySelector();
+                renderItinerary();
+                renderPackingList(); 
+            } catch (error) {
+                console.error("Auth error:", error);
+                showToast("Offline mode.", "error");
+                renderDaySelector();
+                renderItinerary();
+                renderPackingList();
+            }
+        }
+
+        function setupFirestoreListeners() {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+
+            // 1. Itinerary Status (Public)
+            const statusRef = doc(db, 'artifacts', appId, 'public', 'data', 'itinerary_status', 'master');
+            onSnapshot(statusRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    itineraryStatus = docSnap.data();
+                    renderItinerary();
+                }
+            }, (err) => console.error("Sync error:", err));
+
+            // 2. Notifications (Public)
+            const notifsRef = collection(db, 'artifacts', appId, 'public', 'data', 'notifications');
+            onSnapshot(notifsRef, (snapshot) => {
+                notifications = [];
+                snapshot.forEach(doc => notifications.push({ id: doc.id, ...doc.data() }));
+                notifications.sort((a, b) => b.timestamp - a.timestamp); 
+                renderNotifications();
+            }, (err) => console.error("Sync error:", err));
+
+            // 3. Contacts (Public)
+            const contactsRef = collection(db, 'artifacts', appId, 'public', 'data', 'contacts');
+            onSnapshot(contactsRef, (snapshot) => {
+                contactsList = [];
+                snapshot.forEach(doc => contactsList.push({ id: doc.id, ...doc.data() }));
+                // Soft sort by name
+                contactsList.sort((a,b) => a.name.localeCompare(b.name));
+                renderContacts();
+            }, (err) => console.error("Sync error:", err));
+
+            // 4. Packing List (Private)
+            const packingRef = doc(db, 'artifacts', appId, 'users', userId, 'packing_list', 'master');
+            onSnapshot(packingRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    myPackingState = docSnap.data();
+                } else {
+                    myPackingState = {};
+                }
+                renderPackingList();
+            }, (err) => console.error("Private sync error:", err));
+        }
+
+        // === UI Rendering ===
+
+        function renderDaySelector() {
+            const container = document.getElementById('day-selector-container');
+            container.innerHTML = itineraryData.map(day => `
+                <button onclick="window.selectDay('${day.id}')" 
+                        class="px-4 py-2 rounded-full whitespace-nowrap text-sm font-heading transition-all duration-300 ease-in-out border shrink-0 hover:scale-105
+                        ${activeDayId === day.id 
+                            ? 'bg-thai-gold text-black border-thai-gold font-bold shadow-[0_0_15px_rgba(255,215,0,0.6)] animate-pulse' 
+                            : 'bg-black/30 text-gray-400 border-white/10 hover:text-white'}">
+                    ${day.label} <span class="opacity-70 text-xs ml-1 font-normal">${day.date}</span>
+                </button>
+            `).join('');
+        }
+
+        window.selectDay = (dayId) => {
+            activeDayId = dayId;
+            renderDaySelector();
+            renderItinerary();
+        };
+
+        function renderItinerary() {
+            const activeDayData = itineraryData.find(d => d.id === activeDayId);
+            document.getElementById('current-day-title').innerText = `${activeDayData.label} Route`;
+
+            const container = document.getElementById('itinerary-timeline');
+            
+            const getIconHTML = (status) => {
+                if (status === 1) return `<i class="ph-fill ph-car text-blue-400 drop-shadow-[0_0_6px_rgba(96,165,250,0.8)]"></i>`;
+                if (status === 2) return `<i class="ph-fill ph-check-circle text-green-500 drop-shadow-[0_0_6px_rgba(34,197,94,0.8)]"></i>`;
+                return `<i class="ph ph-circle text-gray-500"></i>`; // 0 or undefined
+            };
+            
+            container.innerHTML = `
+                <!-- Vertical Line -->
+                <div class="absolute left-[26px] top-[10px] bottom-0 w-[2px] bg-gradient-to-b from-thai-gold/50 via-white/10 to-transparent z-0"></div>
+                
+                ${activeDayData.events.map((ev, idx) => {
+                    const currentStatus = itineraryStatus[ev.id] || 0;
+                    const completedClass = currentStatus === 2 ? 'opacity-50 text-gray-400 line-through' : 'text-gray-100';
+                    const activeClass = currentStatus === 1 ? 'border-blue-400/30 bg-blue-900/10' : 'border-white/5';
+                    
+                    return `
+                    <div class="flex items-center gap-4 relative z-10 animate-fade-in-up opacity-0" style="animation-delay: ${idx * 0.1}s">
+                        <!-- Status Node -->
+                        <div class="w-8 h-8 rounded-full bg-charcoal-900 border border-white/20 flex items-center justify-center cursor-pointer text-xl shrink-0 transition-all duration-300 ease-in-out hover:scale-110 shadow-lg"
+                             onclick="window.cycleStatus('${ev.id}')" title="Change Status">
+                            ${getIconHTML(currentStatus)}
+                        </div>
+                        
+                        <!-- Event Card -->
+                        <div class="glass flex-1 p-3.5 rounded-xl flex items-center gap-3 ${activeClass} transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/10">
+                            <span class="text-sm font-bold font-mono text-thai-gold shrink-0">${ev.time}</span>
+                            <span class="text-[14px] ${completedClass} leading-tight">${ev.desc}</span>
+                        </div>
+                    </div>
+                    `;
+                }).join('')}
+            `;
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById('notifications-container');
+            if (notifications.length === 0) {
+                container.innerHTML = `<div class="text-center p-6 text-gray-500 text-sm glass hover-elevate rounded-xl fade-in-up border-dashed">No announcements.</div>`;
+                return;
+            }
+
+            container.innerHTML = notifications.map((notif, idx) => {
+                const date = new Date(notif.timestamp);
+                const timeStr = date.toLocaleString('en-US', { weekday: 'short', hour: '2-digit', minute: '2-digit' });
+                return `
+                <div class="glass p-4 rounded-xl animate-fade-in-up opacity-0 border-l-4 border-l-thai-gold relative overflow-hidden transition-all duration-300 ease-in-out hover:scale-105" style="animation-delay: ${idx * 0.1}s">
+                    <div class="flex justify-between items-start mb-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-thai-gold uppercase"><i class="ph-fill ph-clock mr-1"></i>${timeStr}</span>
+                            ${notif.location ? `<span class="text-[10px] text-gray-400 bg-black/40 px-2 py-0.5 rounded-sm"><i class="ph-fill ph-map-pin mr-1"></i>${notif.location}</span>` : ''}
+                        </div>
+                        ${isAdmin ? `<button onclick="window.deleteNotification('${notif.id}')" class="text-gray-500 hover:text-thai-crimson transition"><i class="ph ph-trash"></i></button>` : ''}
+                    </div>
+                    <p class="text-[14px] text-gray-200 whitespace-pre-wrap mt-2 leading-relaxed">${notif.message}</p>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function renderContacts() {
+            const container = document.getElementById('contacts-container');
+            if (contactsList.length === 0) {
+                container.innerHTML = `<div class="text-center p-6 text-gray-500 text-sm glass hover-elevate rounded-xl fade-in-up border-dashed">No contacts added.</div>`;
+                return;
+            }
+
+            container.innerHTML = contactsList.map((contact, idx) => `
+                <div class="glass p-3.5 rounded-xl flex justify-between items-center animate-fade-in-up opacity-0 border-t border-white/5 transition-all duration-300 ease-in-out hover:scale-105" style="animation-delay: ${idx * 0.1}s">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-charcoal-900 border border-thai-gold/20 flex items-center justify-center text-thai-gold">
+                            <i class="ph-fill ph-phone-call text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-100 text-[15px] leading-tight">${contact.name}</div>
+                            <div class="text-[12px] text-thai-gold/80 font-medium">${contact.role}</div>
+                            <div class="text-[13px] text-gray-400 mt-0.5 font-mono">${contact.number}</div>
+                        </div>
+                    </div>
+                    ${isAdmin ? `<button onclick="window.deleteContact('${contact.id}')" class="p-2 text-gray-500 hover:text-thai-crimson transition"><i class="ph ph-trash text-lg"></i></button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderPackingList() {
+            const container = document.getElementById('packing-container');
+            
+            container.innerHTML = packingData.map((categoryObj, cIdx) => `
+                <div class="animate-fade-in-up opacity-0 mb-6" style="animation-delay: ${cIdx * 0.1}s">
+                    <h3 class="text-sm font-heading text-thai-gold/80 mb-2 tracking-widest uppercase border-b border-white/10 pb-1">${categoryObj.category}</h3>
+                    <div class="glass rounded-xl overflow-hidden border border-white/5 transition-all duration-300 ease-in-out hover:scale-105">
+                        ${categoryObj.items.map((item, iIdx) => {
+                            const itemId = `pack_${cIdx}_${iIdx}`;
+                            const isChecked = myPackingState[itemId] === true;
+                            const borderClass = iIdx < categoryObj.items.length - 1 ? 'border-b border-white/5' : '';
+                            return `
+                            <label class="flex items-center gap-3 p-3 hover:bg-white/5 transition cursor-pointer select-none ${borderClass}">
+                                <input type="checkbox" class="pack-checkbox" 
+                                       ${isChecked ? 'checked' : ''} 
+                                       onchange="window.togglePackingItem('${itemId}')">
+                                <span class="text-sm ${isChecked ? 'text-gray-500 line-through' : 'text-gray-200'} transition-colors">${item}</span>
+                            </label>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // === Interactions & Logic ===
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let icon = 'ph-info';
+            if (type === 'error') icon = 'ph-warning-circle';
+            if (type === 'success') icon = 'ph-check-circle';
+
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="ph-fill ${icon} text-xl"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideDown 0.3s ease reverse forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Tab Switching
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('text-thai-gold');
+                    b.classList.add('text-gray-500');
+                    b.querySelector('i').classList.replace('ph-fill', 'ph');
+                });
+                btn.classList.add('text-thai-gold');
+                btn.classList.remove('text-gray-500');
+                btn.querySelector('i').classList.replace('ph', 'ph-fill');
+
+                const targetId = btn.getAttribute('data-target');
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(targetId).classList.add('active');
+                window.scrollTo(0,0);
+            });
+        });
+
+        // Security: Obfuscated Admin Validation
+        // 'msjang' -> [109, 115, 106, 97, 110, 103]
+        window.attemptAdminLogin = () => {
+            const input = document.getElementById('admin-password').value;
+            if (!input) return;
+
+            const targetCodes = [109, 115, 106, 97, 110, 103];
+            const inputCodes = input.split('').map(c => c.charCodeAt(0));
+
+            const isValid = targetCodes.length === inputCodes.length && 
+                            targetCodes.every((val, index) => val === inputCodes[index]);
+
+            if (isValid) {
+                isAdmin = true;
+                showToast("Admin access granted.", "success");
+                closeModal('modal-admin');
+                
+                const lockBtn = document.getElementById('admin-toggle-btn');
+                lockBtn.innerHTML = '<i class="ph-fill ph-lock-open text-thai-gold text-xl"></i>';
+                
+                document.getElementById('btn-show-broadcast').classList.remove('hidden');
+                document.getElementById('btn-show-add-contact').classList.remove('hidden');
+                
+                renderItinerary();
+                renderNotifications();
+                renderContacts();
+            } else {
+                showToast("Access Denied.", "error");
+                document.getElementById('admin-password').value = '';
+            }
+        };
+
+        // Modal Controllers
+        window.openModal = (id) => {
+            document.getElementById(id).classList.remove('hidden');
+        };
+
+        window.closeModal = (id) => {
+            const modal = document.getElementById(id);
+            modal.classList.add('hidden');
+            modal.querySelectorAll('input, textarea').forEach(i => i.value = '');
+        };
+
+        // Hooks
+        document.getElementById('admin-toggle-btn').addEventListener('click', () => {
+            if (!isAdmin) {
+                openModal('modal-admin');
+                setTimeout(() => document.getElementById('admin-password').focus(), 100);
+            } else {
+                showToast("Admin mode active.", "info");
+            }
+        });
+        document.getElementById('btn-show-broadcast').addEventListener('click', () => {
+            openModal('modal-broadcast');
+            setTimeout(() => document.getElementById('broadcast-location').focus(), 100);
+        });
+        document.getElementById('btn-show-add-contact').addEventListener('click', () => {
+            openModal('modal-add-contact');
+            setTimeout(() => document.getElementById('contact-name').focus(), 100);
+        });
+
+        // Global function: Itinerary Toggle
+        window.cycleStatus = async (evId) => {
+            if (!isAdmin) {
+                showToast("Admin access required to update route status.", "error");
+                return;
+            }
+            if (!auth.currentUser) return;
+
+            const current = itineraryStatus[evId] || 0;
+            // Cycle: 0 (empty) -> 1 (car) -> 2 (check) -> 0
+            const next = (current + 1) % 3;
+            
+            itineraryStatus[evId] = next;
+            renderItinerary();
+
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'itinerary_status', 'master');
+                await setDoc(docRef, { [evId]: next }, { merge: true });
+            } catch (err) {
+                console.error(err);
+                showToast("Network sync failed.", "error");
+                itineraryStatus[evId] = current;
+                renderItinerary();
+            }
+        };
+
+        // Global function: Packing List Toggle (Private)
+        window.togglePackingItem = async (itemId) => {
+            const userId = auth.currentUser?.uid;
+            if (!userId) {
+                showToast("Connecting to cloud...", "info");
+                return;
+            }
+
+            const current = myPackingState[itemId] || false;
+            myPackingState[itemId] = !current;
+            renderPackingList(); // Optimistic update
+
+            try {
+                const packingRef = doc(db, 'artifacts', appId, 'users', userId, 'packing_list', 'master');
+                await setDoc(packingRef, { [itemId]: !current }, { merge: true });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Global function: Add Notification
+        window.sendBroadcast = async () => {
+            const msg = document.getElementById('broadcast-message').value.trim();
+            const loc = document.getElementById('broadcast-location').value.trim();
+            if (!msg) { showToast("Message required.", "error"); return; }
+            if (!auth.currentUser || !isAdmin) return;
+
+            try {
+                const notifsRef = collection(db, 'artifacts', appId, 'public', 'data', 'notifications');
+                await addDoc(notifsRef, {
+                    message: msg,
+                    location: loc,
+                    timestamp: Date.now()
+                });
+                showToast("Announcement posted.", "success");
+                closeModal('modal-broadcast');
+            } catch (err) {
+                console.error(err);
+                showToast("Post failed.", "error");
+            }
+        };
+
+        // Global function: Add Contact
+        window.addContact = async () => {
+            const name = document.getElementById('contact-name').value.trim();
+            const role = document.getElementById('contact-role').value.trim();
+            const number = document.getElementById('contact-number').value.trim();
+            
+            if (!name || !number) { showToast("Name and Number required.", "error"); return; }
+            if (!auth.currentUser || !isAdmin) return;
+
+            try {
+                const contactsRef = collection(db, 'artifacts', appId, 'public', 'data', 'contacts');
+                await addDoc(contactsRef, { name, role, number });
+                showToast("Contact saved.", "success");
+                closeModal('modal-add-contact');
+            } catch (err) {
+                console.error(err);
+                showToast("Operation failed.", "error");
+            }
+        };
+
+        // Global functions: Deletions
+        window.deleteContact = async (id) => {
+            if (!isAdmin) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contacts', id));
+                showToast("Contact deleted.", "info");
+            } catch (err) {
+                console.error(err);
+                showToast("Delete failed.", "error");
+            }
+        };
+
+        window.deleteNotification = async (id) => {
+             if (!isAdmin) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'notifications', id));
+                showToast("Announcement removed.", "info");
+            } catch (err) {
+                console.error(err);
+                showToast("Delete failed.", "error");
+            }
+        }
+
+        // Initialize App on Load
+        window.addEventListener('DOMContentLoaded', initApp);
+
+    </script>
+</body>
+</html>
